@@ -1455,9 +1455,9 @@ Token in the Header
 
 ## Lessons Learned
 
-### **Lessons**
+### Lessons
 
-### 이메일 인증 코드 API 구현 경험
+### **이메일 인증 코드 API 구현 경험**
 
 ***JavaMailSender***
 
@@ -1484,7 +1484,7 @@ Token in the Header
 		- 사용자가 이메일과 인증 번호를 입력하면, Redis에 저장된 키와 값을 비교하여 인증을 처리합니다.
 이 경험을 통해 Redis가 일시적인 데이터 저장 및 처리에 매우 유용하다는 것을 배웠습니다. 이는 데이터베이스의 부하를 줄이고 성능을 향상시키는 데 큰 도움이 됩니다.
 
-### Spring Cache 적용
+### **Spring Cache 적용**
 
 ***Cacheable/CacheEvict***
 
@@ -1499,7 +1499,7 @@ Token in the Header
 이 경험을 통해 스프링 캐시의 효율적인 사용 방법을 배우게 되었고, 앞으로의 프로젝트에서는 데이터의 동적 변화에 대응할 수 있는 적절한 캐시 전략을 적용할 계획입니다.
 
 
-### **Laearned**
+### Laearned
 
 ***Jasypt***
 
