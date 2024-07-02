@@ -1457,7 +1457,7 @@ Token in the Header
 
 ### Lessons
 
-#### ***이메일 인증 코드 API 구현 경험**
+#### **이메일 인증 코드 API 구현 경험**
 
 ***JavaMailSender***
 
