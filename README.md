@@ -1455,7 +1455,7 @@ Token in the Header
 
 ## Lessons Learned
 
-**Lessons**
+### **Lessons**
 
 ### 이메일 인증 코드 API 구현 경험
 
@@ -1499,7 +1499,7 @@ Token in the Header
 이 경험을 통해 스프링 캐시의 효율적인 사용 방법을 배우게 되었고, 앞으로의 프로젝트에서는 데이터의 동적 변화에 대응할 수 있는 적절한 캐시 전략을 적용할 계획입니다.
 
 
-**Laearned**
+### **Laearned**
 
 ***Jasypt***
 
