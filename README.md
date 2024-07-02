@@ -1447,14 +1447,75 @@ Token in the Header
 
 
 
-
 ## Authors
 
 - [@honghyeon](https://github.com/limhhyeon)
 - [@soheeparklee](https://github.com/soheeparklee)
 - [@Hyunjun](https://www.github.com/awear321)
 
+## Lessons Learned
+
+**Lessons**
+
+###이메일 인증 코드 API 구현 경험###
+
+***JavaMailSender***
+
+프로젝트를 진행하면서 이메일 인증 코드 API를 구현하기 위해 구글 SMTP와 JavaMailSender를 사용하는 방법을 배웠습니다. 이는 사용자들에게 직접 이메일을 보내는 기능을 구현하는 데 유용했습니다.
+
+배운 점:
+
+	1. 구글 SMTP 사용: 구글 SMTP를 생성하여 JavaMailSender와 함께 사용하면 사용자에게 직접 메일을 보낼 수 있다는 것을 알게 되었습니다.
+	2. 설정 방법:
+		- 라이브러리를 추가합니다.
+		- SMTP 설정을 생성하고, 이를 YAML 파일에 설정합니다.
+		- JavaMailSender를 사용하여 메일을 보냅니다.
+  
+***Redis***
+
+이메일 인증 API를 구현하면서 인증 번호를 처리하는 효율적인 방법을 찾기 위해 여러 가지를 고려했습니다. 처음에는 인증 번호를 데이터베이스에 저장하는 방법을 생각했지만, 이는 비효율적이라는 결론을 내렸습니다. 그 과정에서 Redis를 알게 되었고, 이를 활용한 인증 번호 처리 방식을 구현했습니다.
+
+배운 점:
+
+	1. Redis 활용: 인증 번호는 일시적으로 사용되고 버려지기 때문에 데이터베이스에 저장하는 것보다 Redis에 저장하는 것이 더 효율적이라는 것을 알게 되었습니다.	
+	2. 구현 방법:
+		- 인증 번호 전송 API가 실행되면, Redis 서버에 이메일을 키(key)로, 인증 번호를 값(value)으로 저장합니다.
+		- Redis 설정을 통해 인증 번호는 일정 시간 동안만 저장되도록 설정합니다.
+		- 사용자가 이메일과 인증 번호를 입력하면, Redis에 저장된 키와 값을 비교하여 인증을 처리합니다.
+이 경험을 통해 Redis가 일시적인 데이터 저장 및 처리에 매우 유용하다는 것을 배웠습니다. 이는 데이터베이스의 부하를 줄이고 성능을 향상시키는 데 큰 도움이 됩니다.
+
+###Spring Cache 적용###
+
+***Cacheable/CacheEvict***
+
+스프링 캐시를 적용하여 매번 같은 데이터를 반복적으로 불러오는 SQL 쿼리 실행을 줄이기로 했지만, 단순히 key와 value만 설정해주면 적용될 줄 알았습니다. 그러나 다른 부분에서 변경이 일어나면 캐시된 데이터가 업데이트되지 않는 문제를 발견했습니다. 이를 해결하기 위해 @CacheEvict를 사용했지만, 왜 이런 일이 발생하는지를 깊이 고민해보았습니다.
+
+배운 점:
+
+	1. 다양한 키값 설정: 해당 서비스는 페이지와 정렬 순서에 따라 결과가 달라지기 때문에 단순한 상품 ID만으로는 충분하지 않다는 것을 깨달았습니다.
+	2. 복합 키 사용: #productId + '_' + #criteria + '_' + #pageNum과 같이 여러 개의 키값을 조합하여 캐시를 저장할 수 있다는 것을 배웠습니다. 이를 통해 다양한 조건에 따라 캐시된 데이터를 정확히 관리할 수 있게 되었습니다.
+	3. 적용 시 고려사항: 새롭게 배운 스프링 캐시를 적용할 때는 데이터의 변경 가능성을 고려하여 적절한 키값을 설정해야 한다는 것을 깨달았습니다.
+
+이 경험을 통해 스프링 캐시의 효율적인 사용 방법을 배우게 되었고, 앞으로의 프로젝트에서는 데이터의 동적 변화에 대응할 수 있는 적절한 캐시 전략을 적용할 계획입니다.
+
+
+**Laearned**
+
+***Jasypt***
+
+개발 중 보안이 필요한 변수가 점점 늘어나면서 환경 변수에 하나씩 저장하는 데 어려움을 겪었습니다. 그러던 중, 팀원의 Jasypt 코드를 통해 하나의 환경 변수를 사용하여 여러 보안 변수를 효율적으로 관리할 수 있다는 것을 배웠습니다.
+
+이 프로젝트에서 Jasypt의 유용성을 깨달았으며, 다음 프로젝트에서는 제가 직접 Jasypt를 적용해 보려 합니다.
+
+***S3***
+
+이전 프로젝트에서는 이미지를 저장하고 불러오는데 처음이다보니 많은 어려움을 겪었습니다 결국 최선의 방법으로 GitHub에 이미지를 저장하여 불러오는데 성공은 하였지만 깃허브에 저장하는 방법은 유용하다고 생각이 들지 않아, 이번 프로젝트에서는 이미지를 저장하고 불러오는 방식을 제대로 구현하기로 했습니다. 제가 담당하지 않은 부분이었지만, 팀원이 개발한 S3 코드를 통해 많은 것을 배웠습니다.
+
+팀원은 S3 서버를 구축하여 이미지를 저장하고, 저장된 이미지를 URL로 받아 데이터베이스에 저장하는 방식을 사용했습니다. 이 접근 방식이 매우 효율적임을 깨달았고, 다음 프로젝트에서는 제가 직접 S3를 적용해 볼 계획입니다.
+
+
 ## Feedback
+
 ✔️ API url restful
 
 ✔️ interface name Jpa -> Repository
@@ -1462,72 +1523,6 @@ Token in the Header
 ✔️ service 안에 내용들은 다른 개발자도 보기 쉽게 메소드로 따로 빼서 가독성 높이기
 
 ✔️ class에서 생성자 static 메소드 만들어 service 부담 줄이기, 가독성 높이기
-
-## Trouble Shooting
-
-### 스프링 캐싱 사용하면 ConnectException: Connection refused: no further information 발생
-
-🔴 Error
-
-캐시를 적용했음에도 연결 불가 에러 발생
-```
- java.net.ConnectException: Connection refused: no further information
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672) ~[na:na]
-```
-🔵 What I tried
-`value = "productReview",key = "#productId"`  진행을 하면서 해당 value와 key값이 잠시 오류가 나왔나? 싶어서 value랑 key값 바꿔보기
-
-→ 실패 동일한 오류 발생
-
-build.gradle에 라이브러리 들어가 있나 확인 
-
-→ 들어가 있었음
-`@EnableCaching` 추가했나 확인
-
-→ 추가 되어 있음
-
-🟢 Solution
-
-정답은 yaml파일도 따로 설정해줘야 했다.
-
-yaml 파일에서 캐시 설정을 정의하면 애플리케이션의 다른 설정들과 함께 일관되게 관리할 수 있기 떄문에 적용을 해줘야 했다.
-
-```
-
-spring:
-  cache:
-    type: simple
-
-```
-
-### 서버에서 redis 설치 후 사용 시 레디스 서버와 연결 불가능하다는 에러
-
-🔴 Error
-
-로컬에서 설치 후 사용했을 떄 성공했는데 서버에서 설치하고 나서 에러
-```
-
-Unable to connect to Redis
-
-```
-
-🔵 What I tried
-
-서버 배포 후 redis 설치하는 방법 찾아보기
-
-보안 그룹 인바운드에 redis 포트 번호 추가하기
-
-🟢 Solution
-
-방법은 bind 127.0.0.1::1로 되어 있었는데 해당 주소는 로컬에서만 사용이 가능하다라는 것을 알게되고 bind 0.0.0.0으로 수정하여 외부 ip 허용을 해주고 redis password까지 추가로 설정을 해주었더니 해결이 되었다.
-
-
-<img src="https://github.com/DrugStoreWeb/DrugStore-BE/assets/156086602/ea7de327-73c6-4db4-9dd2-0eef0d544ccf" width="300" />
-
-
-
-
 
 
 
