@@ -4,6 +4,7 @@ import com.github.drug_store_be.repository.userDetails.CustomUserDetails;
 import com.github.drug_store_be.service.admin.AdminService;
 import com.github.drug_store_be.web.DTO.ResponseDto;
 import com.github.drug_store_be.web.DTO.order.ProductRegisterDto;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +21,7 @@ public class AdminController {
     private final AdminService adminService;
 
 
+    @ApiOperation("register product")
     @Operation(summary= "상품 등록")
     @PostMapping("/product")
     public ResponseDto registerProduct(@AuthenticationPrincipal CustomUserDetails customUserDetails,
