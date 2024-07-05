@@ -13,6 +13,7 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
   security:
     oauth2:
       client:
@@ -97,3 +98,9 @@ pay:
 
   logging:
     level: debug
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
