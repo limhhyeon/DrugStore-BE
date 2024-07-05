@@ -123,6 +123,11 @@ dependencies {
 
     //HTTP servlet
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
+
+    //swagger v3
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+    implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.15'
+    implementation 'org.springdoc:springdoc-openapi-security:1.6.15'
 }
 
 //bootJar {
