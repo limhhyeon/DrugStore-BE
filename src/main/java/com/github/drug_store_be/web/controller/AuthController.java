@@ -3,7 +3,7 @@ package com.github.drug_store_be.web.controller;
 import com.github.drug_store_be.service.auth.AuthService;
 import com.github.drug_store_be.web.DTO.Auth.*;
 import com.github.drug_store_be.web.DTO.ResponseDto;
-import io.swagger.models.Response;
+
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
