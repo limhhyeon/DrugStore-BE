@@ -24,7 +24,7 @@ public class StorageController {
     private final StorageService storageService;
 
     //여러개 업로드
-    @Operation(summary = "사진 업로드", description = "상품 이미지 S3서버에 업로드하기, 이미지 타입은 enum")
+    @Operation(summary = "사진 업로드", description = "상품 이미지 기 업로드하기, 이미지 타입은 enum")
 
     @PostMapping("/multipart-files")
     public ResponseDto uploadMultipleFiles(@RequestPart("uploadFiles") List<MultipartFile> multipartFiles,
