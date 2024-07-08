@@ -20,7 +20,7 @@ public class AdminController {
     private final AdminService adminService;
 
 
-    @Operation(summary= "상품 등록")
+    @Operation(summary= "상품 등록", description = "권한을 가진 유저가 판매 위한 상품 등록")
     @PostMapping("/product")
     public ResponseDto registerProduct(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                        @RequestBody ProductRegisterDto productRegisterDto){
