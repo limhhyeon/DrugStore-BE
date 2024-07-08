@@ -22,7 +22,10 @@ public class MypageController {
     private final MypageService mypageService;
     @Operation(summary = "리뷰 작성", description = "구매한 상품에 대해 리뷰 작성")
     @PostMapping("/review/{ordersId}")
-    public ResponseDto AddReview(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody ReviewRequest reviewRequest,@Parameter(name = "ordersId",description = "구매내역의 id",example = "1") @PathVariable("ordersId") Integer ordersId) {
+    public ResponseDto AddReview(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                 @RequestBody ReviewRequest reviewRequest,
+                                 @Parameter(name = "ordersId",description = "구매내역의 id",example = "1")
+                                     @PathVariable("ordersId") Integer ordersId) {
         try {
             return mypageService.addReview(customUserDetails, reviewRequest, ordersId);
         } catch (ReviewException e) {
