@@ -99,8 +99,13 @@ pay:
   logging:
     level: debug
 
-springdoc:
-  api-docs:
-    path: /v3/api-docs
-  swagger-ui:
-    path: /swagger-ui.html
+#springdoc:
+#  api-docs:
+#    path: /v3/api-docs
+#  swagger-ui:
+#    path: /swagger-ui.html
+
+openapi: 3.0.0
+info:
+  title: drug_store_be
+  version: 1.0.0

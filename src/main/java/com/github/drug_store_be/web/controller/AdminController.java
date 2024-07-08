@@ -4,7 +4,6 @@ import com.github.drug_store_be.repository.userDetails.CustomUserDetails;
 import com.github.drug_store_be.service.admin.AdminService;
 import com.github.drug_store_be.web.DTO.ResponseDto;
 import com.github.drug_store_be.web.DTO.order.ProductRegisterDto;
-import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +41,7 @@ public class AdminController {
 
     @PostMapping("/product")
     public ResponseDto registerProduct(
-            @ApiParam(name = "token", value= "token of user")
+//            @ApiParam(name = "token", value= "token of user")
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody ProductRegisterDto productRegisterDto){
         return adminService.registerProduct(customUserDetails, productRegisterDto );

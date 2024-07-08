@@ -41,11 +41,11 @@ public class AdminService {
     })
     public ResponseDto registerProduct(CustomUserDetails customUserDetails, ProductRegisterDto productRegisterDto) {
         User user= userRepository.findById(customUserDetails.getUserId())
-                .orElseThrow(()-> new NotFoundException("아이디가  "+ customUserDetails.getUserId() +"인 유저를 찾을 수 없습니다."));
+                .orElseThrow(()-> new NotFoundException("Cannot find user with ID:  "+ customUserDetails.getUserId()));
         List<String> role= user.getUserRole().stream().map(ur-> ur.getRole().getRoleName()).collect(Collectors.toList());
         if(role.stream().findFirst().get().equals("ROLE_ADMIN")){
             Category category= CategoryRepository.findById(productRegisterDto.getCategoryId())
-                    .orElseThrow(()-> new NotFoundException("아이디가  "+ productRegisterDto.getCategoryId() +"인 카테고리를 찾을 수 없습니다."));
+                    .orElseThrow(()-> new NotFoundException("Cannot find category with ID  "+ productRegisterDto.getCategoryId()));
 
             Integer caculatedFinalPrice= productRegisterDto.getPrice() * (100-productRegisterDto.getProductDiscount()) / 100;
 
