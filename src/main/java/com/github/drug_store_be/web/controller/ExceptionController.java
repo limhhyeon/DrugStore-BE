@@ -1,6 +1,7 @@
 package com.github.drug_store_be.web.controller;
 
 import com.github.drug_store_be.service.exceptions.CAuthenticationEntryPointException;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/exceptions")
+@Tag(name = "Exceptions API", description = "API for checking authorization exceptions")
 public class ExceptionController {
     @GetMapping(value = "/entrypoint")
     public void entrypointException() {

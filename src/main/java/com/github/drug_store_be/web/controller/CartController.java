@@ -8,6 +8,7 @@ import com.github.drug_store_be.web.DTO.Cart.UpdateCartRequest;
 import com.github.drug_store_be.web.DTO.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +19,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/cart")
+@Tag(name = "Cart API", description = "API for get, post, update, delete cart")
+
 public class CartController {
     private final CartService cartService;
 

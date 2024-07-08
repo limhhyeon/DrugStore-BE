@@ -5,6 +5,7 @@ import com.github.drug_store_be.web.DTO.Auth.EmailAuthNumCheck;
 import com.github.drug_store_be.web.DTO.Auth.EmailCheck;
 import com.github.drug_store_be.web.DTO.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/email")
 @RequiredArgsConstructor
+@Tag(name = "Email Verification API", description = "API for email verification")
 public class EmailController {
     private final EmailService emailService;
     @Operation(summary = "인증번호 요청", description = "요청한 이메일에 인증번호 보내주기")

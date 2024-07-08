@@ -5,6 +5,7 @@ import com.github.drug_store_be.service.like.LikeService;
 import com.github.drug_store_be.web.DTO.Like.LikeRequest;
 import com.github.drug_store_be.web.DTO.Like.MyLikesResponse;
 import com.github.drug_store_be.web.DTO.ResponseDto;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/likes")
+@Tag(name = "Likes API", description = "API for get, post, delete likes")
 public class LikeController {
 
     private final LikeService likeService;

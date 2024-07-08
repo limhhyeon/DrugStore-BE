@@ -8,6 +8,7 @@ import com.github.drug_store_be.web.DTO.Mypage.ReviewRequest;
 import com.github.drug_store_be.web.DTO.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value="/mypage")
+@Tag(name = "MyPage API", description = "API for get, post, update, delete reviews, my information, orders, questions")
 public class MypageController {
     private final MypageService mypageService;
     @Operation(summary = "리뷰 작성", description = "구매한 상품에 대해 리뷰 작성")

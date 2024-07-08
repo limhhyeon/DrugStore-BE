@@ -5,6 +5,7 @@ import com.github.drug_store_be.web.DTO.Auth.*;
 import com.github.drug_store_be.web.DTO.ResponseDto;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/auth")
+@Tag(name = "Sign Up, Login API", description = "API for sign up, login and others")
+
 public class AuthController {
     private final AuthService authService;
     @Operation(summary = "회원가입", description = "이미지와 회원정보를 폼데이터로 받아서 회원가입 진행")

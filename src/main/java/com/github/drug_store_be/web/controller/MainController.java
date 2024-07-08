@@ -4,6 +4,7 @@ import com.github.drug_store_be.service.main.MainService;
 import com.github.drug_store_be.web.DTO.MainPage.MainPageProductResponse;
 import com.github.drug_store_be.web.DTO.MainPage.MainPageResponse;
 import com.github.drug_store_be.web.DTO.ResponseDto;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/main")
+@Tag(name = "Main Page API", description = "API for get, sort, search products")
 public class MainController {
 
     private final MainService mainservice;
