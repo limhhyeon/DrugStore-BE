@@ -14,6 +14,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class LikeRequest {
-    @Schema(description = "좋아요 아이디", example = "15")
+    @Schema(description = "상품 아이디", example = "15")
     private Integer productId;
 }
