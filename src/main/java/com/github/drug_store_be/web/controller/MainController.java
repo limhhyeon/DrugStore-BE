@@ -45,7 +45,7 @@ public class MainController {
                     description = "카테고리 번호",
                     required = true,
                     in = ParameterIn.PATH,
-                    schema = @Schema(type = "integer")
+                    schema = @Schema(type = "integer", defaultValue = "1")
             )
             @PathVariable(value = "category") int category,
             @Parameter(
@@ -66,7 +66,7 @@ public class MainController {
                     description = "검색 키워드",
                     required = true,
                     in = ParameterIn.QUERY,
-                    schema = @Schema(type = "string", defaultValue = "")
+                    schema = @Schema(type = "string", defaultValue = "클렌징")
             )
             @RequestParam(value = "keyword", defaultValue = "", required = true) String keyword,
             @Parameter(
