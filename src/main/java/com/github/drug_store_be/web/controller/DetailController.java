@@ -9,6 +9,7 @@ import com.github.drug_store_be.web.DTO.Detail.QuestionRequest;
 import com.github.drug_store_be.web.DTO.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/product")
 @RequiredArgsConstructor
+@Tag(name = "Detail API", description = "API for managing product details and Q&A")
 public class DetailController {
     private final DetailService detailService;
 
