@@ -27,9 +27,9 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI().addSecurityItem(new SecurityRequirement().
-                        addList("Bearer Authentication"))
+                        addList("Bearer token"))
                 .components(new Components().addSecuritySchemes
-                        ("Bearer Authentication", createAPIKeyScheme()))
+                        ("Bearer token", createAPIKeyScheme()))
                 .info(new Info().title("DrugstoreShop project")
                         .description("원하는 상품을 장바구니에 담아 살 수 있는 기능을 제공합니다.")
                         .version("1.0.0"));
@@ -39,7 +39,7 @@ public class SwaggerConfig {
         return new SecurityScheme()
                 .type(SecurityScheme.Type.APIKEY)
                 .in(SecurityScheme.In.HEADER)
-                .name("Authorization")
+                .name("token")
                 .bearerFormat("JWT")
                 .scheme("bearer");
     }
