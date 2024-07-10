@@ -26,70 +26,10 @@ configurations {
     }
 }
 
-
-//dependencies {
-//    implementation 'org.springframework.boot:spring-boot-starter'
-//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    implementation 'org.springframework.boot:spring-boot-starter-web'
-//    //lombok사용
-//    compileOnly 'org.projectlombok:lombok'
-//    annotationProcessor 'org.projectlombok:lombok'
-//    //Mapstruct
-//    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-//    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-//    //Swagger
-//    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-//    implementation 'io.springfox:springfox-swagger2:3.0.0'
-//    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
-//    //env-hide
-//    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-//    //JPA
-//    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    //jwt
-//    implementation 'io.jsonwebtoken:jjwt:0.9.1'
-//    //security
-//    implementation 'javax.xml.bind:jaxb-api:2.3.1'
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
-//    //mariaDB
-//    implementation 'org.mariadb.jdbc:mariadb-java-client:3.1.4'
-//    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
-//    runtimeOnly 'mysql:mysql-connector-java:8.0.26'
-//    //redis
-//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-//    //mail
-//    implementation 'org.springframework.boot:spring-boot-starter-mail'
-//
-//    // Add the spring-boot-configuration-processor dependency for annotation processing
-//    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-//
-//    // Cache
-//    implementation 'org.springframework.boot:spring-boot-starter-cache'
-//
-//    // amazon s3
-//    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-//
-//    // redis -> java로 redis control
-//    implementation 'redis.clients:jedis:5.1.0'
-//
-//    //jasypt
-//    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
-//    implementation 'javax.xml.bind:jaxb-api:2.3.1'
-//
-//    // validation
-//    implementation 'org.springframework.boot:spring-boot-starter-validation'
-//
-//
-//    //assertions for testJasyptConfig
-//    implementation 'org.assertj:assertj-core:3.19.0'
-//    //test for testJasyptConfig
-//    implementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-//    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-//
-//
-//    //java.lang.ClassNotFoundException
-//    implementation 'javax.xml.bind:jaxb-api:2.3.1'
-//    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
-//}
+//instance 문제로 추가
+ext {
+    set('springCloudVersion', '2021.0.0')
+}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
@@ -122,18 +62,23 @@ dependencies {
 
     //HTTP servlet
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
+
+    //instance 꺼지는 문제
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+//    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.65.Final:osx-x86_64'
+    runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.76.Final:osx-aarch_64'
 }
 
-//bootJar {
-//    archiveBaseName.set('drugstore')
-//}
-//jar{
-//    archiveBaseName.set('drugstore')
-//}
-
-jar{
-    enabled = false
+//instance 꺼지는 문제
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
+
+
 
 tasks.named('test') {
     useJUnitPlatform()
@@ -141,4 +86,8 @@ tasks.named('test') {
 
 tasks.named('bootJar') {
     mainClass = 'com.github.drug_store_be.DrugStoreBeApplication'
+}
+
+jar{
+    enabled = false
 }

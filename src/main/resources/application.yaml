@@ -96,4 +96,5 @@ pay:
 
 
   logging:
-    level: debug
+    level:
+      io.netty.resolver.dns: DEBUG
