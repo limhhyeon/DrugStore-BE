@@ -30,8 +30,7 @@ public class MainController {
             @Parameter(
                     description = "정렬 기준",
                     required = false,
-                    in = ParameterIn.QUERY,
-                    schema = @Schema(type = "string", defaultValue = "sales")
+                    in = ParameterIn.QUERY
             )
             @RequestParam(name = "sortby", defaultValue = "sales") String sortBy,
                                 @PageableDefault(page = 0, size = 24) Pageable pageable) {
@@ -53,8 +52,7 @@ public class MainController {
             @Parameter(
                     description = "정렬 기준",
                     required = false,
-                    in = ParameterIn.QUERY,
-                    schema = @Schema(type = "string", defaultValue = "sales")
+                    in = ParameterIn.QUERY
             )
             @RequestParam(name = "sortby", defaultValue = "sales")  String sortBy, @PageableDefault(page = 0, size = 24) Pageable pageable) {
         Page<MainPageProductResponse> mainPageProductResponse=mainservice.CategoryPage(category, sortBy,pageable);
@@ -67,15 +65,13 @@ public class MainController {
             @Parameter(
                     description = "검색 키워드",
                     required = true,
-                    in = ParameterIn.QUERY,
-                    schema = @Schema(type = "string", defaultValue = "클렌징")
+                    in = ParameterIn.QUERY
             )
             @RequestParam(value = "keyword", defaultValue = "", required = true) String keyword,
             @Parameter(
                     description = "정렬 기준",
                     required = false,
-                    in = ParameterIn.QUERY,
-                    schema = @Schema(type = "string", defaultValue = "sales")
+                    in = ParameterIn.QUERY
             )
             @RequestParam(name = "sortby", defaultValue = "sales") String sortBy, @PageableDefault(page = 0, size = 24) Pageable pageable ) {
         Page<MainPageProductResponse> mainPageProductResponse=mainservice.findPage(keyword,sortBy,pageable);
