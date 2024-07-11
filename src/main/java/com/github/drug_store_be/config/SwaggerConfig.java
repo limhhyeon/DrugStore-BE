@@ -12,7 +12,9 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@OpenAPIDefinition(
+@OpenAPIDefinition
+        (
+
         info = @io.swagger.v3.oas.annotations.info.Info(
                 title = "DrugstoreShop project",
                 description = "원하는 상품을 장바구니에 담아 살 수 있는 기능을 제공합니다",

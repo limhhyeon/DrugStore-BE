@@ -58,12 +58,12 @@ public class MypageController {
     }
     @Operation(summary = "구매내역 조회", description = "자신이 산 구매내역 조회")
     @GetMapping("/order")
-    public ResponseDto MyPageOrderList(@AuthenticationPrincipal CustomUserDetails customUserDetails, @Parameter(name = "pageable",description = "페이지조회") Pageable pageable) {
+    public ResponseDto MyPageOrderList(@AuthenticationPrincipal CustomUserDetails customUserDetails,  @Parameter(hidden = true) Pageable pageable) {
         return mypageService.findAllOrders(customUserDetails, pageable);
     }
     @Operation(summary = "작성한 리뷰 조회", description = "자신이 작성한 모든 리뷰에 대한 조회")
     @GetMapping("/reviews")
-    public ResponseDto getReviews(@AuthenticationPrincipal CustomUserDetails customUserDetails, @Parameter(name = "pageable",description = "페이지조회") Pageable pageable) {
+    public ResponseDto getReviews(@AuthenticationPrincipal CustomUserDetails customUserDetails,  @Parameter(hidden = true) Pageable pageable) {
         return mypageService.findAllReviews(customUserDetails, pageable);
     }
     @Operation(summary = "쿠폰 조회", description = "자신이 가지고 있는 쿠폰 조회")
@@ -73,7 +73,7 @@ public class MypageController {
     }
     @Operation(summary = "작성한 Q&A 조회", description = "자신이 작성한 모든 Q&A에 대한 조회")
     @GetMapping("/question")
-    public ResponseDto ReviewList(@AuthenticationPrincipal CustomUserDetails customUserDetails, @Parameter(name = "pageable",description = "페이지조회")Pageable pageable) {
+    public ResponseDto ReviewList(@AuthenticationPrincipal CustomUserDetails customUserDetails,  @Parameter(hidden = true)Pageable pageable) {
         return mypageService.findAllQnA(customUserDetails,pageable);
     }
 }
