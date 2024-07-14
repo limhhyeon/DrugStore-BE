@@ -146,9 +146,7 @@ public class MainService{
         List<productListQueryDto> plqdList = new ArrayList<>();
 
         for (Product product : productList) {
-
-            productRepository.updateProductSales();
-            productRepository.updateReviewAvg();
+            
             int productLike=productRepository.countLikesByProductId(product.getProductId());
             productListQueryDto plqd = productListQueryDto.builder()
                     .product_id(product.getProductId())

@@ -85,6 +85,12 @@ public class MypageService {
             throw new IllegalArgumentException("평점은 0부터 5까지 가능합니다.");
         }
 
+        //리뷰 평균 구하고 product review avg 업데이트하기
+        Integer reviewCount= reviewRepository.countByProductId(product.getProductId());
+//        productRepository.updateReviewAvg(product.getProductId(), reviewCount, reviewScore);
+//        updateReviewAvg(product.getProductId(), reviewCount, reviewScore);
+
+
         Review review = Review.builder()
                 .user(User.builder().userId(userId).build())
                 .orders(orders)
@@ -96,9 +102,6 @@ public class MypageService {
 
         Review savedReview = reviewRepository.save(review);
 
-        //리뷰 평균 구하고 업데이트하기
-        Integer reviewCount= reviewRepository.countByProductId(product.getProductId());
-        productRepository.updateReviewAvg(product.getProductId(), reviewCount, reviewScore);
 
         ReviewResponse response = ReviewResponse.builder()
                 .reviewId(savedReview.getReviewId())
@@ -114,6 +117,15 @@ public class MypageService {
                 .build();
 
         return new ResponseDto(HttpStatus.OK.value(), "리뷰가 저장되었습니다.", response);
+    }
+
+    public void updateReviewAvg(Integer productId, Integer reviewCount, Integer reviewScore){
+        Product product= productRepository.findById(productId)
+                .orElseThrow(()-> new NotFoundException("No product matching ID"));
+        Double curAvg=product.getReviewAvg();
+        Double newAvg= (curAvg* reviewCount + reviewScore) / (reviewCount+1);
+        product.setReviewAvg(newAvg);
+        productRepository.save(product);
     }
     @Caching(evict = {
             @CacheEvict(value = "productReview",allEntries = true),
