@@ -17,18 +17,6 @@ public interface LikesRepository extends JpaRepository<Likes,Integer> {
     List<Likes> findByUser(User user);
     void deleteByUserAndProduct(User user, Product product);
     Boolean existsByUserAndProduct(User user,Product product);
-    Likes findByUserAndProduct(User user,Product product);
 
-//    @Query("SELECT l.product FROM Likes l GROUP BY l.product ORDER BY COUNT(l.likesId) DESC")
-//    static Product findTopByOrderByLikesDesc();
-
-    @Query("SELECT l FROM Likes l WHERE l.user.userId = :userId AND l.product.productId = :productId")
-    Likes findByUserIdAndProductId(Optional<Integer> userId, Integer productId);
-
-    @Query("SELECT COUNT(l.likesId) FROM Likes l WHERE l.product.productId = :productId")
-    Integer findByProductId(@Param("productId") Integer productId);
-
-    @Query(value = "SELECT l.product FROM Likes l GROUP BY l.product ORDER BY COUNT(l) DESC, l.product.productId ASC limit 1")
-    Product findProductWithMostLikes();
 
 }
