@@ -12,9 +12,7 @@ public class MainPageResponse {
     @Schema(description = "상품 목록", example = "[]")
     @JsonProperty("product_list")
     private List<MainPageProductResponse> product_list;
-    @Schema(description = "메인 페이지 광고 이미지 정보")
-    @JsonProperty("main_page_ad_img")
-    private MainPageAdImg main_page_ad_img;
+
     @Schema(description = "전체 페이지 수", example = "47")
     private int total_pages;
     @Schema(description = "전체 상품 수", example = "139")

@@ -19,10 +19,11 @@ import org.springframework.context.annotation.Configuration;
                 title = "DrugstoreShop project",
                 description = "원하는 상품을 장바구니에 담아 살 수 있는 기능을 제공합니다",
                 version = "1.0.0"
-        ),
-        servers = {
-                @Server(url = "https://drugstoreproject.shop", description = "Generated server url")
-        }
+        )
+//                ,
+//        servers = {
+//                @Server(url = "https://drugstoreproject.shop", description = "Generated server url")
+//        }
 )
 
 public class SwaggerConfig {

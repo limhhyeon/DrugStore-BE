@@ -44,13 +44,10 @@ public class MainService{
         // Pageable로 페이징 처리
         Page<MainPageProductResponse> paginatedResult =getPaging(sortedMainPageProductResponseList, pageable);
 
-        //광고 이미지
-        MainPageAdImg mpai=getAdImg();
 
         // MainPageResponse 생성
         MainPageResponse mainPageResponse = MainPageResponse.builder()
                 .product_list(paginatedResult.getContent())
-                .main_page_ad_img(mpai)
                 .total_pages(paginatedResult.getTotalPages())
                 .total_elements(paginatedResult.getTotalElements())
                 .current_page(pageable.getPageNumber())
@@ -110,25 +107,6 @@ public class MainService{
                 .orElse(""); // 값이 없으면 빈 문자열 반환
     }
 
-
-    //광고이미지
-    public MainPageAdImg getAdImg() {
-
-        productRepository.updateReviewAvg();
-        productRepository.updateProductSales();
-
-        Product topProductByReview = productRepository.findTopByOrderByReviewAvgDesc();
-        Product topProductBySales = productRepository.findTopByOrderByProductSalesDesc();
-        Product topProductByLikes = productRepository.findTopByOrderByLikesDesc();
-
-
-        MainPageAdImg mpai = MainPageAdImg.builder()
-                .likes_top_image_url(getMainImgUrls(topProductByLikes))
-                .sales_top_image_url(getMainImgUrls(topProductBySales))
-                .review_top_image_url(getMainImgUrls(topProductByReview))
-                .build();
-        return mpai;
-    }
 
 
     //페이징
