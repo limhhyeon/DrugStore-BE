@@ -50,7 +50,7 @@ public class MypageService {
             @CacheEvict(value = "productDetails",allEntries = true)
     })
 
-    public ResponseDto addReview(CustomUserDetails customUserDetails, ReviewRequest reviewRequest, int ordersId) throws ReviewException {
+    public ResponseDto addReview(CustomUserDetails customUserDetails, ReviewRequest reviewRequest, Integer ordersId) throws ReviewException {
         Integer userId = customUserDetails.getUserId();
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new ReviewException("사용자를 찾을 수 없습니다."));
@@ -62,10 +62,10 @@ public class MypageService {
         if (getReviewStatusForOrder(userId, ordersId)) {
             throw new ReviewException("이미 리뷰를 작성하였습니다.");
         }
-
-        if (isCartExists(userId)) {
-            throw new ReviewException("결제를 해야 리뷰를 작성할 수 있습니다.");
-        }
+//
+//        if (isCartExists(userId)) {
+//            throw new ReviewException("결제를 해야 리뷰를 작성할 수 있습니다.");
+//        }
 
         Integer reviewScore = reviewRequest.getReviewScore();
         String reviewContent = reviewRequest.getReviewContent();
@@ -87,8 +87,7 @@ public class MypageService {
 
         //리뷰 평균 구하고 product review avg 업데이트하기
         Integer reviewCount= reviewRepository.countByProductId(product.getProductId());
-//        productRepository.updateReviewAvg(product.getProductId(), reviewCount, reviewScore);
-//        updateReviewAvg(product.getProductId(), reviewCount, reviewScore);
+        productRepository.updateReviewAvg(product.getProductId(), reviewCount, reviewScore);
 
 
         Review review = Review.builder()
@@ -119,14 +118,7 @@ public class MypageService {
         return new ResponseDto(HttpStatus.OK.value(), "리뷰가 저장되었습니다.", response);
     }
 
-    public void updateReviewAvg(Integer productId, Integer reviewCount, Integer reviewScore){
-        Product product= productRepository.findById(productId)
-                .orElseThrow(()-> new NotFoundException("No product matching ID"));
-        Double curAvg=product.getReviewAvg();
-        Double newAvg= (curAvg* reviewCount + reviewScore) / (reviewCount+1);
-        product.setReviewAvg(newAvg);
-        productRepository.save(product);
-    }
+
     @Caching(evict = {
             @CacheEvict(value = "productReview",allEntries = true),
             @CacheEvict(value = "productDetails",allEntries = true)
@@ -167,6 +159,10 @@ public class MypageService {
 
         Review updateReview = reviewRepository.save(review);
 
+        //리뷰 평균 구하고 product review avg 업데이트하기
+//        Integer reviewCount= reviewRepository.countByProductId(product.getProductId());
+//        productRepository.updateReviewAvg(product.getProductId(), reviewCount, reviewScore);
+
         ReviewResponse response = ReviewResponse.builder()
                 .reviewId(updateReview.getReviewId())
                 .optionName(review.getOrders().getOptions().getOptionsName())
@@ -192,11 +188,16 @@ public class MypageService {
         if (existingReview.isPresent()) {
             Review review = existingReview.get();
 
+            reviewRepository.delete(review);
+
+            //리뷰 평균 구하고 product review avg 업데이트하기
+//            Integer reviewCount= reviewRepository.countByProductId(review.getProduct().getProductId());
+//            productRepository.updateReviewAvg(review.getProduct().getProductId(), reviewCount, 0);
+
+
             if (!review.getUser().getUserId().equals(customUserDetails.getUserId())) {
                 throw new IllegalArgumentException("해당 리뷰를 삭제할 권한이 없습니다.");
             }
-
-            reviewRepository.delete(review);
 
             return new ResponseDto(HttpStatus.OK.value(), "리뷰가 삭제되었습니다.");
         } else {
@@ -265,14 +266,14 @@ public class MypageService {
         return existingReview.isPresent(); // 리뷰가 존재하면 true, 없으면 false 반환
     }
 
-    public Boolean isCartExists(Integer userId) {
-        Optional<Cart> isCartExists = reviewRepository.existsByUserId(userId);
+//    public Boolean isCartExists(Integer userId) {
+//        Optional<Cart> isCartExists = reviewRepository.existsByUserId(userId);
+//
+//        return isCartExists.isPresent();
+//    }
 
-        return isCartExists.isPresent();
-    }
 
-
-private boolean hasPermission(int userId, int ordersId) throws ReviewException {
+private boolean hasPermission(Integer userId, Integer ordersId) throws ReviewException {
     Orders orders = ordersRepository.findById(ordersId)
             .orElseThrow(() -> new ReviewException("주문을 찾을 수 없습니다."));
 

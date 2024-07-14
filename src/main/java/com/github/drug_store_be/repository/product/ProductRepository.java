@@ -25,13 +25,13 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
             "END", nativeQuery = true)
     void updateProductSales();
 
-//    @Transactional
-//    @Modifying
-//    @Query("UPDATE Product p " +
-//            "SET p.reviewAvg = ROUND((p.reviewAvg* :reviewCount+ :reviewScore) / (:reviewCount+1), 1) " +
-//            "WHERE p.productId = :productId "
-//    )
-//    void updateReviewAvg(Integer productId, Integer reviewCount, Integer reviewScore);
+    @Transactional
+    @Modifying
+    @Query("UPDATE Product p " +
+            "SET p.reviewAvg = ROUND((p.reviewAvg* :reviewCount+ :reviewScore) / (:reviewCount+1), 1) " +
+            "WHERE p.productId = :productId "
+    )
+    void updateReviewAvg(Integer productId, Integer reviewCount, Integer reviewScore);
 
 
 
