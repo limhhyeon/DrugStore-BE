@@ -7,6 +7,7 @@ import com.github.drug_store_be.repository.option.Options;
 import com.github.drug_store_be.repository.option.OptionsRepository;
 import com.github.drug_store_be.repository.order.Orders;
 import com.github.drug_store_be.repository.order.OrdersRepository;
+import com.github.drug_store_be.repository.product.ProductRepository;
 import com.github.drug_store_be.repository.productPhoto.ProductPhoto;
 import com.github.drug_store_be.repository.user.User;
 
@@ -39,6 +40,7 @@ public class OrderService {
     private final CartRepository cartRepository;
     private final OrdersRepository ordersRepository;
     private final OptionsRepository optionsRepository;
+    private final ProductRepository productRepository;
 
     @Transactional
     public ResponseDto cartToOrder(CustomUserDetails customUserDetails) {
@@ -84,6 +86,7 @@ public class OrderService {
     @CacheEvict(value = "productDetails",allEntries = true)
     public ResponseDto orderToPay(CustomUserDetails customUserDetails, PayRequestDto payRequestDto) {
         List<OptionQuantityDto> optionQuantityList= payRequestDto.getOptionQuantityDto();
+        List<Integer> optionIdsList= optionQuantityList.stream().map(OptionQuantityDto::getOptionId).toList();
         //재고 예외처리
         exceptionCheck(optionQuantityList);
 
@@ -105,7 +108,9 @@ public class OrderService {
             //장바구니에서 주문한 상품은 삭제
             deleteFromCart(user, optionQuantityList);
 
-
+            //product sales update
+            List<Integer> productIdList = productRepository.findProductIdsByOptionIds(optionIdsList);
+            productRepository.updateProductSales(productIdList);
 
             //주문 만들기
             //save order JPA
