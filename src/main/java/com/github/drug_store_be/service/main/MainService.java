@@ -1,8 +1,11 @@
 package com.github.drug_store_be.service.main;
 
+import com.github.drug_store_be.repository.like.LikesRepository;
 import com.github.drug_store_be.repository.product.Product;
 import com.github.drug_store_be.repository.product.ProductRepository;
 import com.github.drug_store_be.repository.productPhoto.ProductPhoto;
+import com.github.drug_store_be.repository.review.Review;
+import com.github.drug_store_be.repository.review.ReviewRepository;
 import com.github.drug_store_be.repository.user.User;
 import com.github.drug_store_be.repository.user.UserRepository;
 
@@ -28,6 +31,7 @@ import java.util.stream.Collectors;
 public class MainService{
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final LikesRepository likesRepository;
 
 
     //정렬+광고
@@ -152,11 +156,11 @@ public class MainService{
     private Boolean getUserLike(Product product) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        User user = userRepository.findByEmailFetchJoin(email).orElse(null);
+        User user = userRepository.findByEmail(email).orElse(null);
 
         if (user != null) {
             Integer userId = user.getUserId();  // userId 필드를 직접 추출
-            return productRepository.existsByUserIdAndProductId(product.getProductId(), userId);
+            return likesRepository.existsByUserIdAndProductId(product.getProductId(), userId);
         } else {
             return false;
         }
@@ -165,14 +169,13 @@ public class MainService{
 
     //MainResponse에 필요한 값과 정렬에 필요한 값을 합쳐 놓은 dto
     public List<productListQueryDto> getProductListQueryDto(List<Product> productList) {
-        List<productListQueryDto> plqdList = new ArrayList<>();
+        productRepository.updateProductSales();
+        productRepository.updateReviewAvg();
 
-        for (Product product : productList) {
 
-            productRepository.updateProductSales();
-            productRepository.updateReviewAvg();
-            int productLike=productRepository.countLikesByProductId(product.getProductId());
-            productListQueryDto plqd = productListQueryDto.builder()
+        return productList.stream().map(product -> {
+            int productLike = productRepository.countLikesByProductId(product.getProductId());
+            return productListQueryDto.builder()
                     .product_id(product.getProductId())
                     .product_name(product.getProductName())
                     .brand_name(product.getBrand())
@@ -186,10 +189,7 @@ public class MainService{
                     .product_like(productLike)
                     .review_avg(product.getReviewAvg())
                     .build();
-
-            plqdList.add(plqd);
-        }
-        return plqdList;
+        }).collect(Collectors.toList());
     }
 
     public static MainPageProductResponse toMainpageResponseDto(productListQueryDto pld) {

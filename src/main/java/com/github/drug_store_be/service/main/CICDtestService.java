@@ -1,5 +1,6 @@
 package com.github.drug_store_be.service.main;
 
+import com.github.drug_store_be.repository.like.LikesRepository;
 import com.github.drug_store_be.repository.product.Product;
 import com.github.drug_store_be.repository.product.ProductRepository;
 import com.github.drug_store_be.repository.productPhoto.ProductPhoto;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 public class CICDtestService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final LikesRepository likesRepository;
 
 
     //정렬+광고
@@ -124,7 +126,7 @@ public class CICDtestService {
 
         if (user != null) {
             Integer userId = user.getUserId();  // userId 필드를 직접 추출
-            return productRepository.existsByUserIdAndProductId(product.getProductId(), userId);
+            return likesRepository.existsByUserIdAndProductId(product.getProductId(), userId);
         } else {
             return false;
         }

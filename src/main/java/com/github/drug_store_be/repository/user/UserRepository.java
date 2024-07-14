@@ -13,10 +13,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     Optional<User> findByEmailFetchJoin(String email);
     boolean existsByEmail(String email);
     boolean existsByNickname(String nickname);
-
-    @Query("SELECT u.userId FROM User u WHERE u.email = ?1")
-    Optional<Integer> findByEmail(String email);
-
     Optional<User> findByUserId(Integer userId);
     Optional<User> findByNicknameAndPhoneNumber(String nickname,String phoneNum);
+    Optional<User> findByEmail(String email);
 }
