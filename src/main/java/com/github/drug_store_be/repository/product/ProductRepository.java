@@ -27,10 +27,14 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
 
     @Transactional
     @Modifying
+//    @Query("UPDATE Product p " +
+//            "SET p.reviewAvg = (SELECT ROUND(AVG(r.reviewScore),1) FROM Review r WHERE r.product = p) " +
+//            "WHERE p IN (SELECT r.product FROM Review r)")
     @Query("UPDATE Product p " +
-            "SET p.reviewAvg = (SELECT ROUND(AVG(r.reviewScore),1) FROM Review r WHERE r.product = p) " +
-            "WHERE p IN (SELECT r.product FROM Review r)")
-    void updateReviewAvg();
+            "SET p.reviewAvg = ROUND((p.reviewAvg* :reviewCount+ :reviewScore) / (:reviewCount+1), 1) " +
+            "WHERE p.productId = :productId "
+    )
+    void updateReviewAvg(Integer productId, Integer reviewCount, Integer reviewScore);
 
 
     Product findTopByOrderByProductSalesDesc();

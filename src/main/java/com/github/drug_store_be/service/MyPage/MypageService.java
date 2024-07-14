@@ -96,6 +96,10 @@ public class MypageService {
 
         Review savedReview = reviewRepository.save(review);
 
+        //리뷰 평균 구하고 업데이트하기
+        Integer reviewCount= reviewRepository.countByProductId(product.getProductId());
+        productRepository.updateReviewAvg(product.getProductId(), reviewCount, reviewScore);
+
         ReviewResponse response = ReviewResponse.builder()
                 .reviewId(savedReview.getReviewId())
                 .optionName(review.getOrders().getOptions().getOptionsName())
@@ -188,6 +192,7 @@ public class MypageService {
         }
     }
 
+
     public ResponseDto findUserDetail(CustomUserDetails customUserDetails) {
         User user = userRepository.findById(customUserDetails.getUserId()).orElseThrow(() -> new NotFoundException("회원가입 후 이용해 주시길 바랍니다."));
 
@@ -254,11 +259,7 @@ public class MypageService {
         return isCartExists.isPresent();
     }
 
-//    public Boolean existsByUserIdAndOrdersId(Integer userId, Integer ordersId) {
-//        Optional<Review> existsByUserIdAndOrdersId = ordersRepository.existsByUserIdAndOrdersId(userId, ordersId);
-//
-//        return existsByUserIdAndOrdersId.isPresent();
-//    }
+
 private boolean hasPermission(int userId, int ordersId) throws ReviewException {
     Orders orders = ordersRepository.findById(ordersId)
             .orElseThrow(() -> new ReviewException("주문을 찾을 수 없습니다."));

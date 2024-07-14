@@ -58,6 +58,7 @@ public class Product {
 
     @Column(name = "review_avg", nullable = false)
     private Double reviewAvg;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProductPhoto> productPhotoList;
 

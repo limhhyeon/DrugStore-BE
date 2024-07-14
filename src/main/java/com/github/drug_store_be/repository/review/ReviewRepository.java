@@ -29,12 +29,14 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     @Query("SELECT r FROM Review r WHERE r.user.userId = :userId order by r.orders.ordersId desc")
     Page<Review> findAllReviews(Integer userId, Pageable pageable);
 
-//    @Query("SELECT c FROM UserCoupon c WHERE c.user.userId = :userId")
-//    List<UserCoupon> findAllByUserId(Integer userId);
-
     @Query("SELECT q FROM QuestionAnswer q WHERE q.user.userId = :userId")
     List<QuestionAnswer> findAllQnA(Integer userId, Pageable pageable);
 
     @Query("SELECT c FROM Cart c WHERE c.user.userId = :userId")
     Optional<Cart> existsByUserId(Integer userId);
+
+    @Query(
+            "SELECT COUNT(r) FROM Review r WHERE r.product.productId = :productId"
+    )
+    Integer countByProductId(Integer productId);
 }
