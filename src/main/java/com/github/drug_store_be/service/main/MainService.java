@@ -44,13 +44,10 @@ public class MainService{
         // Pageable로 페이징 처리
         Page<MainPageProductResponse> paginatedResult =getPaging(sortedMainPageProductResponseList, pageable);
 
-        //광고 이미지
-        MainPageAdImg mpai=getAdImg();
 
         // MainPageResponse 생성
         MainPageResponse mainPageResponse = MainPageResponse.builder()
                 .product_list(paginatedResult.getContent())
-                .main_page_ad_img(mpai)
                 .total_pages(paginatedResult.getTotalPages())
                 .total_elements(paginatedResult.getTotalElements())
                 .current_page(pageable.getPageNumber())
@@ -112,23 +109,6 @@ public class MainService{
 
 
     //광고이미지
-    public MainPageAdImg getAdImg() {
-
-        productRepository.updateReviewAvg();
-        productRepository.updateProductSales();
-
-        Product topProductByReview = productRepository.findTopByOrderByReviewAvgDesc();
-        Product topProductBySales = productRepository.findTopByOrderByProductSalesDesc();
-        Product topProductByLikes = productRepository.findTopByOrderByLikesDesc();
-
-
-        MainPageAdImg mpai = MainPageAdImg.builder()
-                .likes_top_image_url(getMainImgUrls(topProductByLikes))
-                .sales_top_image_url(getMainImgUrls(topProductBySales))
-                .review_top_image_url(getMainImgUrls(topProductByReview))
-                .build();
-        return mpai;
-    }
 
 
     //페이징
@@ -166,11 +146,12 @@ public class MainService{
     //MainResponse에 필요한 값과 정렬에 필요한 값을 합쳐 놓은 dto
     public List<productListQueryDto> getProductListQueryDto(List<Product> productList) {
         List<productListQueryDto> plqdList = new ArrayList<>();
+        productRepository.updateProductSales();
+        productRepository.updateReviewAvg();
 
         for (Product product : productList) {
 
-            productRepository.updateProductSales();
-            productRepository.updateReviewAvg();
+
             int productLike=productRepository.countLikesByProductId(product.getProductId());
             productListQueryDto plqd = productListQueryDto.builder()
                     .product_id(product.getProductId())
